@@ -1,0 +1,13 @@
+.bg {
+  padding: 1;
+  margin-left: "0px";
+  padding-left: "0px";
+  background-color: "#f9f9f9";
+  width: "100%";
+}
+
+.page {
+  max-width: "94%";
+  margin-top: "16px";
+  margin-left: "72px";
+}
