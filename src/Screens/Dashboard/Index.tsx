@@ -10,7 +10,6 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import StoreIcon from "@mui/icons-material/Store";
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 
-
 import PieChart from "../../Components/PieChart";
 import SummaryCard from "../../Components/SummaryCard";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -45,13 +44,15 @@ import DualBarChart from "../../Components/DualBarChart";
 import { selectBudget } from "../../features/budget/budgetSlice";
 import { HR } from "flowbite-react";
 
+// Correct background image URL
+const backgroundImageUrl = "/images/light2.jpeg";
 
 const Dashboard: React.FC = () => {
   const incomeArray = useAppSelector(selectIncomeTransactions);
   const expenseArray = useAppSelector(selectExpenseTransactions);
   const expenseSum = useAppSelector(selectExpenseSum);
   const incomeSum = useAppSelector(selectIncomeSum);
-  const budget = useAppSelector(selectBudget)
+  const budget = useAppSelector(selectBudget);
 
   const transactionStatus = useAppSelector(selectStatus);
   const [filteredIncomeArray, setFilteredIncomeArray] = useState(incomeArray);
@@ -125,6 +126,9 @@ const Dashboard: React.FC = () => {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "50vh",
+          backgroundImage: `url(${backgroundImageUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       >
         <CommonCircularProgress size={80} sx={{ color: "black" }} />
@@ -134,9 +138,21 @@ const Dashboard: React.FC = () => {
     return (
       <>
         <CommonTopBar title="Overview" />
-        <CommonBox sx={{ margin: 0, flexDirection: 'column', padding: '2.2vw', paddingTop: 2, color: "black", alignItems: "left"}}>
+        <CommonBox
+          sx={{
+            margin: 0,
+            flexDirection: 'column',
+            padding: '2.2vw',
+            paddingTop: 2,
+            color: "black",
+            alignItems: "left",
+            backgroundImage: `url(${backgroundImageUrl})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
           <Grid container spacing={2} justifyContent="center" alignItems="center">
-
+            {/* Your grid items here */}
           </Grid>
 
           <Typography variant="h5" sx={{ marginY: "4vh", fontWeight: "600" }}>Summary</Typography>
@@ -164,20 +180,16 @@ const Dashboard: React.FC = () => {
           <Grid container spacing={4}>
             <Grid item xs={12} sm={6} md={6}>
               <Box sx={{ height: '100%' }}>
-                <PieChart title = "EXPENSE" type="expense" data={groupAndSumByCategory(filteredExpenseArray)} />
+                <PieChart title="EXPENSE" type="expense" data={groupAndSumByCategory(filteredExpenseArray)} />
               </Box>
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
               <Box sx={{ height: '100%' }}>
-                {/* <Divider flexItem style={{width:'100%', height:'200p%'}} textAlign="left" sx={{marginBottom: 4}}>
-                  <Typography variant="h6">Income</Typography>
-                </Divider> */}
                 <PieChart title="INCOME" type="income" data={groupAndSumByCategory(filteredIncomeArray)} />
               </Box>
             </Grid>
             <Grid item xs={12}>
               <Box sx={{ height: '100%' }}>
-              {/* <Typography variant="h5" sx={{ marginY: "4vh", fontWeight: "600" }}>Budget and Expense</Typography> */}
                 <DualBarChart title="BUDGET AND EXPENSE" categories={categories} BudgetArray={budgetedAmounts} ExpenseArray={spentAmounts} />
               </Box>
             </Grid>

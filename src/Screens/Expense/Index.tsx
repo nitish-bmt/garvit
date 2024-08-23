@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Container, Divider, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import { CommonTableSection } from "../../Components/Common/CommonTableSection";
 import AddButton from "../../Components/Common/AddButton";
 import { Transaction } from "../../dbOperations/interfaces";
@@ -8,12 +8,13 @@ import { selectTransactions } from "../../features/transaction/transactionSlice"
 import AddExpenseDialog from "../../Components/AddExpense";
 import SummaryCard from "../../Components/SummaryCard";
 import { AccountBalance } from "@mui/icons-material";
-import MiniDrawer from "../../Components/Common/CommonSideBar";
+import CommonTopBar from "../../Components/Common/CommonTopBar";
 import SingleLineChart from "../../Components/SingleLineChart";
 import { processTransactionsForSingleLineChart } from "../../utils/chartUtils";
-import DualLineChart from "../../Components/DualLineChart";
-import CommonTopBar from "../../Components/Common/CommonTopBar";
 import CommonCard from "../../Components/Common/CommonCard";
+
+// Correct background image URL
+const backgroundImageUrl = "/images/light2.jpeg";
 
 const Expenses: React.FC = () => {
   const trxns = useSelector(selectTransactions);
@@ -35,54 +36,57 @@ const Expenses: React.FC = () => {
   const { amounts, dates } = processTransactionsForSingleLineChart(expenses);
 
   return (
-    <div>
+    <Box
+      sx={{
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        padding: 1,
+        marginLeft: 0,
+        paddingLeft: 0,
+      }}
+    >
       <CommonTopBar title="Expense" />
-      <div
-        style={{
-          padding: 1,
-          marginLeft: "0px",
-          paddingLeft: "0px",
-          backgroundColor: "#f9f9f9",
-          width: "100%",
+      <Box
+        sx={{
+          maxWidth: "94%",
+          marginTop: "16px",
+          marginLeft: "16px",
+          backgroundColor: "rgba(255, 255, 255, 0.8)", // Optional: Add background color for readability
+          padding: 2,
+          borderRadius: 2,
         }}
       >
-        <div
-          style={{
-            maxWidth: "94%",
-            marginTop: "16px",
-            marginLeft: "16px",
+        <Box component="h3" sx={{ mx: 0 }}>
+          Summary
+        </Box>
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
           }}
         >
-          <Box component="h3" sx={{ mx: 0 }}>
-            Summary
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-start",
-            }}
-          >
-            <SummaryCard
-              value={String(sum)}
-              title="Expense"
-              icon={<AccountBalance sx={{ fontSize: 30, color: "inherit" }} />}
-            />
-          </Box>
-          <Box component="h3" sx={{ mx: 0, marginTop: 2 }}>
-            Reports
-          </Box>
-          <CommonCard>
-            <SingleLineChart data={amounts} label="Expense" dates={dates} />
-          </CommonCard>
-          <Box sx={{ mt: 2 }}>
-            <CommonTableSection transactions={expenses} type="Expense" />
-          </Box>
-          <AddButton onClick={handleDialogOpen} />
-          <AddExpenseDialog open={dialogOpen} onClose={handleDialogClose} />
-        </div>
-      </div>
-    </div>
+          <SummaryCard
+            value={String(sum)}
+            title="Expense"
+            icon={<AccountBalance sx={{ fontSize: 30, color: "inherit" }} />}
+          />
+        </Box>
+        <Box component="h3" sx={{ mx: 0, marginTop: 2 }}>
+          Reports
+        </Box>
+        <CommonCard>
+          <SingleLineChart data={amounts} label="Expense" dates={dates} />
+        </CommonCard>
+        <Box sx={{ mt: 2 }}>
+          <CommonTableSection transactions={expenses} type="Expense" />
+        </Box>
+        <AddButton onClick={handleDialogOpen} />
+        <AddExpenseDialog open={dialogOpen} onClose={handleDialogClose} />
+      </Box>
+    </Box>
   );
 };
 

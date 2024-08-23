@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Container,
   Grid,
   Box,
   Table,
@@ -11,6 +10,7 @@ import {
   TableRow,
   Paper,
   Stack,
+  Typography,
 } from "@mui/material";
 import SummaryCard from "../../Components/SummaryCard";
 import PieActiveArc from "../../Components/PieChart";
@@ -26,11 +26,11 @@ import { Budget } from "../../dbOperations/interfaces";
 import { convertBudgetDataToList } from "../../utils/chartUtils";
 import CommonBox from "../../Components/Common/CommonBox";
 import CommonCircularProgress from "../../Components/Common/CommonCircularProgress";
-import MiniDrawer from "../../Components/Common/CommonSideBar";
-import { selectExpenseSum } from "../../features/transaction/transactionSlice";
 import CommonTopBar from "../../Components/Common/CommonTopBar";
-import CommonContainer from "../../Components/Common/CommonContainer";
-import CommonCard from "../../Components/Common/CommonCard";
+import { selectExpenseSum } from "../../features/transaction/transactionSlice";
+
+// Correct background image URL
+const backgroundImageUrl = "/images/light2.jpeg";
 
 const BudgetPage: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -68,6 +68,9 @@ const BudgetPage: React.FC = () => {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "50vh",
+          backgroundImage: `url(${backgroundImageUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       >
         <CommonCircularProgress size={80} sx={{ color: "black" }} />
@@ -77,22 +80,31 @@ const BudgetPage: React.FC = () => {
     return (
       <>
         <CommonTopBar title="Budget" />
-        <div
-          style={{
+        <Box
+          sx={{
             padding: 1,
             marginLeft: "0px",
             paddingLeft: "0px",
             width: "100%",
+            backgroundImage: `url(${backgroundImageUrl})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            minHeight: '100vh',
           }}
         >
-          <div
-            style={{
+          <Box
+            sx={{
               maxWidth: "94%",
               marginTop: "16px",
               marginLeft: "16px",
+              backgroundColor: "rgba(255, 255, 255, 0.8)", // Optional: Add background color for readability
+              padding: 2,
+              borderRadius: 2,
             }}
           >
-            <h3>Summary</h3>
+            <Typography variant="h5" sx={{ marginBottom: "16px", fontWeight: "600" }}>
+              Summary
+            </Typography>
             <Grid container spacing={2}>
               <Grid item>
                 <SummaryCard
@@ -121,12 +133,10 @@ const BudgetPage: React.FC = () => {
                 />
               </Grid>
             </Grid>
-            <h3>Reports</h3>
-            {/* <Stack sx={{ border: '1px solid #ccc', borderRadius: '8px', padding: '16px', margin: '16px' }}> */}
-            {/* <CommonCard sx={{ display: "flex", ml: "0px" }}> */}
-              <PieActiveArc title="report" data={budgetGraphData} type={"expense"} />
-            {/* </CommonCard> */}
-            {/* </Stack> */}
+            <Typography variant="h5" sx={{ marginTop: "16px", marginBottom: "16px", fontWeight: "600" }}>
+              Reports
+            </Typography>
+            <PieActiveArc title="report" data={budgetGraphData} type={"expense"} />
             <Grid container spacing={4} sx={{ mt: 4 }}>
               <Grid item xs={12}>
                 <Stack>
@@ -139,17 +149,18 @@ const BudgetPage: React.FC = () => {
                       backgroundColor: "white",
                     }}
                   >
-                    <Table sx={{
-                      backgroundColor: "#ffffff",
-                      boxShadow: "0 0px 32px 0px rgba(0, 0, 0, 0.01)",
-                      border: "1px solid #e0e0e0",
-                      // backgroundColor: "#f5f5f5",
-                      transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                      "&:hover": {
-                        transform: "translateY(-4px)",
-                        boxShadow: "2px 2px 8px 0.1px rgba(0, 0, 0, 0.1)",
-                      },
-                    }}>
+                    <Table
+                      sx={{
+                        backgroundColor: "#ffffff",
+                        boxShadow: "0 0px 32px 0px rgba(0, 0, 0, 0.01)",
+                        border: "1px solid #e0e0e0",
+                        transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                        "&:hover": {
+                          transform: "translateY(-4px)",
+                          boxShadow: "2px 2px 8px 0.1px rgba(0, 0, 0, 0.1)",
+                        },
+                      }}
+                    >
                       <TableHead>
                         <TableRow>
                           <TableCell sx={{ fontWeight: "bold" }}>
@@ -172,14 +183,12 @@ const BudgetPage: React.FC = () => {
                                 backgroundColor: "#ffffff",
                                 boxShadow: "0 0px 32px 0px rgba(0, 0, 0, 0.01)",
                                 border: "1px solid #e0e0e0",
-                                width: 300,
-                                // backgroundColor: "#f5f5f5",
                                 transition: "transform 0.3s ease, box-shadow 0.3s ease",
                                 "&:hover": {
                                   transform: "translateY(-4px)",
                                   boxShadow: "2px 2px 8px 0.1px rgba(0, 0, 0, 0.1)",
                                 },
-                               }}
+                              }}
                             >
                               <TableCell component="th" scope="row">
                                 {category}
@@ -201,8 +210,8 @@ const BudgetPage: React.FC = () => {
             </Grid>
             <AddButton onClick={handleDialogOpen} />
             <AddBudgetDialog open={dialogOpen} onClose={handleDialogClose} />
-          </div>
-        </div>
+          </Box>
+        </Box>
       </>
     );
   }
